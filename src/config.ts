@@ -5,18 +5,22 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
   title: 'Phaser 3 Typescript Template',
   url: '',
   version: '1.0',
-  width: 800,
-  height: 600,
+  width: 400,
+  height: 250,
   backgroundColor: '#0x3a404d',
   type: Phaser.AUTO,
   parent: 'game',
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 200 }
+      debug: true,
+      gravity: { y: 0 }
     }
   },
-  scene: [Preloader, MainScene]
+  scene: [Preloader, MainScene],
+  scale: {
+    zoom: 2
+  }
 }
 
 export default GameConfig

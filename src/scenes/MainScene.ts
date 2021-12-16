@@ -1,30 +1,28 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
-import PhaserLogo from '../objects/PhaserLogo'
 
 export default class MainScene extends Phaser.Scene {
-  private phaserLogo!: PhaserLogo
-
   constructor() {
     super({ key: SceneKeys.MainScene })
   }
 
   create() {
-    const particles = this.add.particles(TextureKeys.RedParticle)
+    const map = this.make.tilemap({ key: TextureKeys.Dungeon })
+    const tileset = map.addTilesetImage(
+      TextureKeys.Dungeon,
+      TextureKeys.DungeonTiles
+    )
 
-    const emitter = particles.createEmitter({
-      speed: 100,
-      scale: { start: 0.5, end: 0 },
-      blendMode: 'ADD'
+    map.createLayer('Ground', tileset)
+    const wallsLayer = map.createLayer('Walls', tileset)
+
+    wallsLayer.setCollisionByProperty({ collides: true })
+
+    const debugGraphics = this.add.graphics().setAlpha(0.7)
+    wallsLayer.renderDebug(debugGraphics, {
+      tileColor: null,
+      collidingTileColor: new Phaser.Display.Color(243, 134, 48, 255),
+      faceColor: new Phaser.Display.Color(40, 39, 37, 255)
     })
-
-    this.phaserLogo = new PhaserLogo({
-      scene: this,
-      x: 400,
-      y: 300,
-      texture: TextureKeys.PhaserLogo
-    })
-
-    emitter.startFollow(this.phaserLogo)
   }
 }

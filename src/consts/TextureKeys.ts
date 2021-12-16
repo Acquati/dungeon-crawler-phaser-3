@@ -1,6 +1,6 @@
 enum TextureKeys {
-  PhaserLogo = 'phaser-logo',
-  RedParticle = 'red-particle'
+  DungeonTiles = 'dungeon-tiles',
+  Dungeon = 'dungeon'
 }
 
 export default TextureKeys

@@ -7,8 +7,8 @@ export default class Preloader extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image(TextureKeys.PhaserLogo, 'images/phaser3-logo.png')
-    this.load.image(TextureKeys.RedParticle, 'images/red.png')
+    this.load.image(TextureKeys.DungeonTiles, 'tiles/dungeon-tiles.png')
+    this.load.tilemapTiledJSON(TextureKeys.Dungeon, 'tiles/dungeon-01.json')
   }
 
   create() {
