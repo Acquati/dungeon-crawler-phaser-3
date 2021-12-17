@@ -6,14 +6,14 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
   url: '',
   version: '1.0',
   width: 400,
-  height: 250,
+  height: 300,
   backgroundColor: '#0x3a404d',
   type: Phaser.AUTO,
   parent: 'game',
   physics: {
     default: 'arcade',
     arcade: {
-      debug: true,
+      debug: false,
       gravity: { y: 0 }
     }
   },
