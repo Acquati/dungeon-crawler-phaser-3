@@ -1,10 +1,12 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
 import { debugDraw } from '../utils/debug'
+import movePlayer from '../utils/movePlayer'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
   private player!: Phaser.Physics.Arcade.Sprite
+  private speed = 100
 
   constructor() {
     super({ key: SceneKeys.MainScene })
@@ -45,31 +47,6 @@ export default class MainScene extends Phaser.Scene {
       return
     }
 
-    const speed = 100
-
-    if (this.cursors.right?.isDown) {
-      this.player.scaleX = 1
-      this.player.body.offset.x = this.player.body.width / 2
-
-      this.player.setVelocity(speed, 0)
-      this.player.play({ key: 'walk-side' }, true)
-    } else if (this.cursors.left?.isDown) {
-      this.player.scaleX = -1
-      this.player.body.offset.x = 16 + this.player.body.width / 2
-
-      this.player.setVelocity(-speed, 0)
-      this.player.play({ key: 'walk-side' }, true)
-    } else if (this.cursors.up?.isDown) {
-      this.player.setVelocity(0, -speed)
-      this.player.play({ key: 'walk-up' }, true)
-    } else if (this.cursors.down?.isDown) {
-      this.player.setVelocity(0, speed)
-      this.player.play({ key: 'walk-down' }, true)
-    } else {
-      const parts = this.player.anims.currentAnim.key.split('-')
-      parts[0] = 'idle'
-      this.player.setVelocity(0, 0)
-      this.player.play(parts.join('-'))
-    }
+    movePlayer(this.cursors, this.player, this.speed)
   }
 }
