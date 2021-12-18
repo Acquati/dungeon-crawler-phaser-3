@@ -24,7 +24,7 @@ const moveDown = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.play({ key: 'walk-down' }, true)
 }
 
-const movePlayer = (
+const playerMovement = (
   cursors: Phaser.Types.Input.Keyboard.CursorKeys,
   player: Phaser.Physics.Arcade.Sprite,
   speed: number
@@ -159,4 +159,4 @@ const movePlayer = (
   player.play(parts.join('-'))
 }
 
-export default movePlayer
+export default playerMovement

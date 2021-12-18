@@ -1,7 +1,7 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
 import { debugDraw } from '../utils/debug'
-import movePlayer from '../utils/movePlayer'
+import playerMovement from '../utils/playerMovement'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -47,6 +47,6 @@ export default class MainScene extends Phaser.Scene {
       return
     }
 
-    movePlayer(this.cursors, this.player, this.speed)
+    playerMovement(this.cursors, this.player, this.speed)
   }
 }
