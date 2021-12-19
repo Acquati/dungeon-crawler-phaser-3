@@ -36,6 +36,8 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
   private direction = Direction.RIGHT
   private speed = 50
   private moveEvent: Phaser.Time.TimerEvent
+  // private idle = false
+  // private timer = 0
 
   constructor(
     scene: Phaser.Scene,
