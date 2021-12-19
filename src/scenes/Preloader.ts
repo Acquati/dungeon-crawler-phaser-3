@@ -1,5 +1,6 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
+import { createLizard01Anims } from '../anims/EnemyAnims'
 
 export default class Preloader extends Phaser.Scene {
   constructor() {
@@ -26,7 +27,7 @@ export default class Preloader extends Phaser.Scene {
 
   create() {
     this.anims.createFromAseprite(TextureKeys.Faune)
-    this.anims.createFromAseprite(TextureKeys.Lizard01)
+    createLizard01Anims(this.anims)
 
     this.scene.start(SceneKeys.MainScene)
   }

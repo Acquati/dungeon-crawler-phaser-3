@@ -1,7 +1,8 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
-import { FauneKeys, Lizard01Keys } from '../consts/AnimsKeys'
 import { debugDraw } from '../utils/debug'
+import { FauneKeys, Lizard01Keys } from '../consts/AnimsKeys'
+import Lizard01 from '../objects/Lizard01'
 import playerMovement from '../utils/playerMovement'
 
 export default class MainScene extends Phaser.Scene {
@@ -31,16 +32,22 @@ export default class MainScene extends Phaser.Scene {
     wallsLayer.setCollisionByProperty({ collides: true })
     debugDraw(wallsLayer, this)
 
-    this.lizard01 = this.physics.add.sprite(480, 80, TextureKeys.Lizard01)
-    this.lizard01.body.setSize(16, 16)
-    this.lizard01.play({
-      key: Lizard01Keys.IdleSide,
-      repeat: -1
+    const lizards01 = this.physics.add.group({
+      classType: Lizard01
     })
+
+    lizards01.get(480, 80, TextureKeys.Lizard01)
+
+    // this.lizard01 = this.physics.add.sprite(480, 80, TextureKeys.Lizard01)
+    // this.lizard01.body.setSize(16, 16)
+    // this.lizard01.anims.play({
+    //   key: Lizard01Keys.IdleSide,
+    //   repeat: -1
+    // })
 
     this.player = this.physics.add.sprite(48, 80, TextureKeys.Faune)
     this.player.body.setSize(16, 16)
-    this.player.play(FauneKeys.IdleDown)
+    this.player.anims.play(FauneKeys.IdleDown)
 
     const upperWallsLayer = map.createLayer('upper-walls', tileset)
     upperWallsLayer.setCollisionByProperty({ collides: true })
