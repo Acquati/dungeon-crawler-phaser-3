@@ -1,9 +1,11 @@
+import { FauneKeys } from '../consts/AnimsKeys'
+
 const moveRight = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.scaleX = 1
   player.body.offset.x = player.body.width / 2
 
   player.setVelocity(speed, 0)
-  player.play({ key: 'walk-side' }, true)
+  player.play({ key: FauneKeys.WalkSide }, true)
 }
 
 const moveLeft = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
@@ -11,17 +13,17 @@ const moveLeft = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.body.offset.x = 16 + player.body.width / 2
 
   player.setVelocity(-speed, 0)
-  player.play({ key: 'walk-side' }, true)
+  player.play({ key: FauneKeys.WalkSide }, true)
 }
 
 const moveUp = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.setVelocity(0, -speed)
-  player.play({ key: 'walk-up' }, true)
+  player.play({ key: FauneKeys.WalkUp }, true)
 }
 
 const moveDown = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.setVelocity(0, speed)
-  player.play({ key: 'walk-down' }, true)
+  player.play({ key: FauneKeys.WalkDown }, true)
 }
 
 const playerMovement = (
@@ -155,7 +157,7 @@ const playerMovement = (
 
   player.setVelocity(0, 0)
   const parts = player.anims.currentAnim.key.split('-')
-  parts[0] = 'idle'
+  parts[1] = 'idle'
   player.play(parts.join('-'))
 }
 

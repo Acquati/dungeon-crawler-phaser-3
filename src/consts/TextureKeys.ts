@@ -1,7 +1,8 @@
 enum TextureKeys {
   DungeonTiles = 'dungeon-tiles',
   Dungeon01 = 'dungeon-01',
-  Faune = 'faune'
+  Faune = 'faune',
+  Lizard01 = 'lizard01'
 }
 
 export default TextureKeys

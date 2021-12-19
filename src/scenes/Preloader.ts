@@ -17,10 +17,16 @@ export default class Preloader extends Phaser.Scene {
       'characters/faune.png',
       'characters/faune.json'
     )
+    this.load.aseprite(
+      TextureKeys.Lizard01,
+      'enemies/lizard01.png',
+      'enemies/lizard01.json'
+    )
   }
 
   create() {
     this.anims.createFromAseprite(TextureKeys.Faune)
+    this.anims.createFromAseprite(TextureKeys.Lizard01)
 
     this.scene.start(SceneKeys.MainScene)
   }
