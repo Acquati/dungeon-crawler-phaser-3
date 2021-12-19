@@ -1,4 +1,4 @@
-export enum FauneKeys {
+export enum FauneAnimsKeys {
   WalkSide = 'faune-walk-side',
   WalkDown = 'faune-walk-down',
   WalkUp = 'faune-walk-up',
@@ -17,7 +17,7 @@ export enum FauneKeys {
   DieSide = 'faune-die-side'
 }
 
-export enum Lizard01Keys {
+export enum Lizard01AnimsKeys {
   IdleSide = 'lizard01-idle-side',
   WalkSide = 'lizard01-walk-side',
   DieSide = 'lizard01-die-side'
