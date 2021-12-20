@@ -83,9 +83,7 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
     gameObject: Phaser.GameObjects.GameObject,
     tile: Phaser.Tilemaps.Tile
   ) {
-    if (gameObject !== this) {
-      return
-    }
+    if (gameObject !== this) return
 
     this.direction = randomDirection(this.direction)
   }

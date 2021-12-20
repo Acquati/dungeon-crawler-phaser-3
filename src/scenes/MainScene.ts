@@ -1,16 +1,14 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
 import { debugDraw } from '../utils/debug'
-import { FauneAnimsKeys } from '../consts/AnimsKeys'
 import Lizard01 from '../objects/Lizard01'
-import playerMovement from '../utils/playerMovement'
-import { GameObjects } from 'phaser'
+import Player from '../objects/Player'
+import '../objects/Player'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
-  private player!: Phaser.Physics.Arcade.Sprite
+  private player!: Player
   private lizards01!: Phaser.Physics.Arcade.Group
-  private speed = 100
 
   constructor() {
     super({ key: SceneKeys.MainScene })
@@ -50,9 +48,7 @@ export default class MainScene extends Phaser.Scene {
     //   repeat: -1
     // })
 
-    this.player = this.physics.add.sprite(48, 80, TextureKeys.Faune)
-    this.player.body.setSize(16, 16)
-    this.player.anims.play(FauneAnimsKeys.IdleDown)
+    this.player = this.add.player(48, 80, TextureKeys.Faune)
 
     const upperWallsLayer = map.createLayer('upper-walls', tileset)
     upperWallsLayer.setCollisionByProperty({ collides: true })
@@ -60,15 +56,34 @@ export default class MainScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, [wallsLayer, upperWallsLayer])
     this.physics.add.collider(this.lizards01, [wallsLayer, upperWallsLayer])
+    this.physics.add.collider(
+      this.player,
+      this.lizards01,
+      this.handlePlayerLizard01Collision,
+      undefined,
+      this
+    )
 
     this.cameras.main.startFollow(this.player, true)
   }
 
-  update(time: number, delta: number) {
-    if (!this.cursors || !this.player) {
-      return
-    }
+  private handlePlayerLizard01Collision(
+    object1: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    object2: Phaser.Types.Physics.Arcade.GameObjectWithBody
+  ) {
+    const lizard01 = object2 as Lizard01
 
-    playerMovement(this.cursors, this.player, this.speed)
+    const dx = this.player.x - lizard01.x
+    const dy = this.player.y - lizard01.y
+
+    const direction = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+
+    this.player.handleDamage(direction)
+  }
+
+  update(time: number, delta: number) {
+    if (!this.cursors || !this.player) return
+
+    this.player.update(this.cursors)
   }
 }

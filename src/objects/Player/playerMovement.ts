@@ -1,4 +1,4 @@
-import { FauneAnimsKeys } from '../consts/AnimsKeys'
+import { FauneAnimsKeys } from '../../consts/AnimsKeys'
 
 const moveRight = (player: Phaser.Physics.Arcade.Sprite, speed: number) => {
   player.scaleX = 1
