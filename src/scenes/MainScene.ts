@@ -4,6 +4,8 @@ import { debugDraw } from '../utils/debug'
 import Lizard01 from '../objects/Lizard01'
 import Player from '../objects/Player'
 import '../objects/Player'
+import { sceneEvents } from '../events/EventCenter'
+import EventKeys from '../consts/EventKeys'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -19,6 +21,8 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
+    this.scene.run(SceneKeys.GameUI)
+
     const map = this.make.tilemap({ key: TextureKeys.Dungeon01 })
     const tileset = map.addTilesetImage(
       TextureKeys.DungeonTiles,
@@ -76,9 +80,11 @@ export default class MainScene extends Phaser.Scene {
     const dx = this.player.x - lizard01.x
     const dy = this.player.y - lizard01.y
 
-    const direction = new Phaser.Math.Vector2(dx, dy).normalize().scale(200)
+    const direction = new Phaser.Math.Vector2(dx, dy).normalize().scale(150)
 
     this.player.handleDamage(direction)
+
+    sceneEvents.emit(EventKeys.PlayerHealthChanged, this.player.health)
   }
 
   update(time: number, delta: number) {

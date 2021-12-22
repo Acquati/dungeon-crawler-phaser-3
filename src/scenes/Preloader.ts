@@ -9,6 +9,7 @@ export default class Preloader extends Phaser.Scene {
 
   preload() {
     this.load.image(TextureKeys.DungeonTiles, 'tiles/dungeon-tiles.png')
+
     this.load.tilemapTiledJSON(
       TextureKeys.Dungeon01,
       'dungeons/dungeon-01.json'
@@ -23,6 +24,10 @@ export default class Preloader extends Phaser.Scene {
       'enemies/lizard01.png',
       'enemies/lizard01.json'
     )
+
+    this.load.image(TextureKeys.UIHeartFull, 'game-ui/ui-heart-full.png')
+    this.load.image(TextureKeys.UIHeartHalf, 'game-ui/ui-heart-half.png')
+    this.load.image(TextureKeys.UIHeartEmpty, 'game-ui/ui-heart-empty.png')
   }
 
   create() {
