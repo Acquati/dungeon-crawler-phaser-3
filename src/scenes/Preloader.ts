@@ -20,6 +20,11 @@ export default class Preloader extends Phaser.Scene {
       'characters/faune.json'
     )
     this.load.aseprite(
+      TextureKeys.FlyingKnife,
+      'weapons/flying-knife.png',
+      'weapons/flying-knife.json'
+    )
+    this.load.aseprite(
       TextureKeys.Lizard01,
       'enemies/lizard01.png',
       'enemies/lizard01.json'
@@ -32,6 +37,7 @@ export default class Preloader extends Phaser.Scene {
 
   create() {
     this.anims.createFromAseprite(TextureKeys.Faune)
+    this.anims.createFromAseprite(TextureKeys.FlyingKnife)
     createLizard01Anims(this.anims)
 
     this.scene.start(SceneKeys.MainScene)

@@ -22,3 +22,9 @@ export enum Lizard01AnimsKeys {
   WalkSide = 'lizard01-walk-side',
   DieSide = 'lizard01-die-side'
 }
+
+export enum FlyingKnifeKeys {
+  Side = 'flying-knife-side',
+  Down = 'flying-knife-down',
+  Up = 'flying-knife-up'
+}

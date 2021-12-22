@@ -1,4 +1,6 @@
+import TextureKeys from '../../consts/TextureKeys'
 import { FauneAnimsKeys } from '../../consts/AnimsKeys'
+import { FlyingKnifeKeys } from '../../consts/AnimsKeys'
 import playerMovement from './playerMovement'
 
 declare global {
@@ -24,6 +26,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private healthState = HealthState.IDLE
   private damageTimer = 0
   private speed = 100
+  private flyingKnifes!: Phaser.Physics.Arcade.Group
 
   private _health = 3
   get health() {
@@ -42,6 +45,57 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     this.anims.play(FauneAnimsKeys.WalkDown)
   }
 
+  setFlyingKnifes(flyingKnifes: Phaser.Physics.Arcade.Group) {
+    this.flyingKnifes = flyingKnifes
+  }
+
+  private throwFlyingKnife() {
+    if (!this.flyingKnifes) return
+
+    const parts = this.anims.currentAnim.key.split('-')
+    const direction = parts[2]
+
+    const vector = new Phaser.Math.Vector2(0, 0)
+    switch (direction) {
+      case 'up':
+        vector.y = -1
+        break
+
+      case 'down':
+        vector.y = 1
+        break
+
+      default:
+      case 'side':
+        if (this.scaleX < 0) {
+          vector.x = -1
+        } else {
+          vector.x = 1
+        }
+        break
+    }
+
+    const angle = vector.angle()
+    const flyingKnife = this.flyingKnifes.get(
+      this.x,
+      this.y,
+      TextureKeys.FlyingKnife
+    ) as Phaser.Physics.Arcade.Sprite
+    flyingKnife.anims.play(
+      {
+        key: FlyingKnifeKeys.Side,
+        repeat: -1
+      },
+      true
+    )
+
+    flyingKnife.setActive(true)
+    flyingKnife.setVisible(true)
+
+    flyingKnife.setRotation(angle)
+    flyingKnife.setVelocity(vector.x * 200, vector.y * 200)
+  }
+
   handleDamage(direction: Phaser.Math.Vector2) {
     if (this._health <= 0) {
       return
@@ -54,7 +108,6 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     if (this._health <= 0) {
       this.healthState = HealthState.DEAD
       this.setVelocity(0, 0)
-      this.setImmovable(true)
       this.anims.play({ key: FauneAnimsKeys.DieSide })
     } else {
       this.setVelocity(direction.x, direction.y)
@@ -87,6 +140,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       this.healthState === HealthState.DAMAGE ||
       this.healthState === HealthState.DEAD
     ) {
+      return
+    }
+
+    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
+      this.throwFlyingKnife()
       return
     }
 
