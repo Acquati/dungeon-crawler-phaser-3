@@ -1,11 +1,12 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
+import DepthKeys from '../consts/DepthKeys'
+import EventKeys from '../consts/EventKeys'
 import { debugDraw } from '../utils/debug'
 import Lizard01 from '../objects/Lizard01'
 import Player from '../objects/Player'
 import '../objects/Player'
 import { sceneEvents } from '../events/EventCenter'
-import EventKeys from '../consts/EventKeys'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -23,7 +24,7 @@ export default class MainScene extends Phaser.Scene {
   }
 
   create() {
-    this.scene.run(SceneKeys.GameUI)
+    this.scene.run(SceneKeys.UserInterface)
 
     const map = this.make.tilemap({ key: TextureKeys.Dungeon01 })
     const tileset = map.addTilesetImage(
@@ -34,6 +35,7 @@ export default class MainScene extends Phaser.Scene {
     )
     map.createLayer('ground', tileset)
     const wallsLayer = map.createLayer('walls', tileset)
+    wallsLayer.setDepth(DepthKeys.Walls)
     wallsLayer.setCollisionByProperty({ collides: true })
     debugDraw(wallsLayer, this)
 
@@ -62,6 +64,7 @@ export default class MainScene extends Phaser.Scene {
     // })
 
     const upperWallsLayer = map.createLayer('upper-walls', tileset)
+    upperWallsLayer.setDepth(DepthKeys.UpperWalls)
     upperWallsLayer.setCollisionByProperty({ collides: true })
     debugDraw(upperWallsLayer, this)
 

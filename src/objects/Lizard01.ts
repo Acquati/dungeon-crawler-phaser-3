@@ -1,4 +1,5 @@
 import { Lizard01AnimsKeys } from '../consts/AnimsKeys'
+import DepthKeys from '../consts/DepthKeys'
 
 enum Direction {
   UP,
@@ -64,6 +65,7 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
     super(scene, x, y, texture, frame)
 
     scene.physics.add.existing(this)
+    this.setDepth(DepthKeys.Enemy)
     const body = this.body as Phaser.Physics.Arcade.Body
     body.setSize(16, 16)
     body.onCollide = true
@@ -128,6 +130,7 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
     super.preUpdate(time, delta)
 
     if (this.health <= 0) {
+      // this.setVelocity(0, 0)
       this.deathTimer += delta
 
       if (this.deathTimer >= 1000) {

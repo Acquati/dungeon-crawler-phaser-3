@@ -1,4 +1,5 @@
 import TextureKeys from '../../consts/TextureKeys'
+import DepthKeys from '../../consts/DepthKeys'
 import { FauneAnimsKeys } from '../../consts/AnimsKeys'
 import { FlyingKnifeKeys } from '../../consts/AnimsKeys'
 import playerMovement from './playerMovement'
@@ -58,44 +59,84 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     const direction = parts[2]
 
     const vector = new Phaser.Math.Vector2(0, 0)
+
+    let flyingKnife: Phaser.Physics.Arcade.Sprite
+
     switch (direction) {
       case 'up':
+        flyingKnife = this.flyingKnifes.get(
+          this.x,
+          this.y - 10,
+          TextureKeys.FlyingKnife
+        )
+        flyingKnife.setDepth(DepthKeys.Player - 1)
+        flyingKnife.anims.play(
+          {
+            key: FlyingKnifeKeys.Up,
+            repeat: -1
+          },
+          true
+        )
         vector.y = -1
         break
 
       case 'down':
+        flyingKnife = this.flyingKnifes.get(
+          this.x,
+          this.y + 10,
+          TextureKeys.FlyingKnife
+        )
+        flyingKnife.setDepth(DepthKeys.PlayerWeapon)
+        flyingKnife.anims.play(
+          {
+            key: FlyingKnifeKeys.Down,
+            repeat: -1
+          },
+          true
+        )
         vector.y = 1
         break
 
       default:
       case 'side':
         if (this.scaleX < 0) {
+          flyingKnife = this.flyingKnifes.get(
+            this.x - 10,
+            this.y,
+            TextureKeys.FlyingKnife
+          )
+          flyingKnife.scaleX = -1
+          flyingKnife.body.offset.x = flyingKnife.body.width
           vector.x = -1
         } else {
+          flyingKnife = this.flyingKnifes.get(
+            this.x + 10,
+            this.y,
+            TextureKeys.FlyingKnife
+          )
+          flyingKnife.scaleX = 1
+          flyingKnife.body.offset.x = 0
           vector.x = 1
         }
+
+        flyingKnife.setDepth(DepthKeys.PlayerWeapon)
+        flyingKnife.anims.play(
+          {
+            key: FlyingKnifeKeys.Side,
+            repeat: -1
+          },
+          true
+        )
         break
     }
 
-    const angle = vector.angle()
-    const flyingKnife = this.flyingKnifes.get(
-      this.x,
-      this.y,
-      TextureKeys.FlyingKnife
-    ) as Phaser.Physics.Arcade.Sprite
-    flyingKnife.anims.play(
-      {
-        key: FlyingKnifeKeys.Side,
-        repeat: -1
-      },
-      true
-    )
+    // const angle = vector.angle()
 
-    flyingKnife.setActive(true)
-    flyingKnife.setVisible(true)
+    // flyingKnife.setActive(true)
+    // flyingKnife.setVisible(true)
 
-    flyingKnife.setRotation(angle)
-    flyingKnife.setVelocity(vector.x * 200, vector.y * 200)
+    // flyingKnife.setRotation(angle)
+    flyingKnife.setVelocity(vector.x * 175, vector.y * 175)
   }
 
   handleDamage(direction: Phaser.Math.Vector2) {
@@ -176,6 +217,7 @@ Phaser.GameObjects.GameObjectFactory.register(
     frame?: string | number
   ) {
     const sprite = new Player(this.scene, x, y, texture, frame)
+    sprite.setDepth(DepthKeys.Player)
 
     this.displayList.add(sprite)
     this.updateList.add(sprite)

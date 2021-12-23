@@ -1,6 +1,6 @@
 import Preloader from './scenes/Preloader'
 import MainScene from './scenes/MainScene'
-import GameUI from './scenes/GameUI'
+import UserInterface from './scenes/UserInterface'
 
 const windowWidth = Math.floor(window.innerWidth / 2)
 const windowHeight = Math.floor(window.innerHeight / 2)
@@ -17,12 +17,12 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
   physics: {
     default: 'arcade',
     arcade: {
-      debug: false,
+      debug: true,
       gravity: { y: 0 }
     }
   },
   pixelArt: true,
-  scene: [Preloader, MainScene, GameUI],
+  scene: [Preloader, MainScene, UserInterface],
   scale: {
     zoom: 2
   }

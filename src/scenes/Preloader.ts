@@ -30,9 +30,12 @@ export default class Preloader extends Phaser.Scene {
       'enemies/lizard01.json'
     )
 
-    this.load.image(TextureKeys.UIHeartFull, 'game-ui/ui-heart-full.png')
-    this.load.image(TextureKeys.UIHeartHalf, 'game-ui/ui-heart-half.png')
-    this.load.image(TextureKeys.UIHeartEmpty, 'game-ui/ui-heart-empty.png')
+    this.load.image(TextureKeys.UIHeartFull, 'user-interface/ui-heart-full.png')
+    this.load.image(TextureKeys.UIHeartHalf, 'user-interface/ui-heart-half.png')
+    this.load.image(
+      TextureKeys.UIHeartEmpty,
+      'user-interface/ui-heart-empty.png'
+    )
   }
 
   create() {
