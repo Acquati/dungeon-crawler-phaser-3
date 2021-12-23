@@ -118,6 +118,10 @@ export default class MainScene extends Phaser.Scene {
   ) {
     // this.flyingKnifes.killAndHide(object1)
     this.flyingKnifes.remove(object1, true, true)
+
+    const lizard01 = object2 as Lizard01
+
+    lizard01.handleDamage()
   }
 
   private handleFlyingKnifesWallsCollision(
@@ -130,6 +134,6 @@ export default class MainScene extends Phaser.Scene {
   update(time: number, delta: number) {
     if (!this.cursors || !this.player) return
 
-    this.player.update(this.cursors)
+    this.player.update(delta, this.cursors)
   }
 }

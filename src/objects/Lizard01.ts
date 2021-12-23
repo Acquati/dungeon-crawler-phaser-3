@@ -8,6 +8,12 @@ enum Direction {
   IDLE
 }
 
+enum HealthState {
+  IDLE,
+  DAMAGE,
+  DEAD
+}
+
 const randomDirection = (exclude: Direction) => {
   const x = Phaser.Math.Between(0, 3)
 
@@ -33,9 +39,18 @@ const randomDirection = (exclude: Direction) => {
 // }
 
 export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
+  private healthState = HealthState.IDLE
   private direction = Direction.RIGHT
   private speed = 50
   private moveEvent: Phaser.Time.TimerEvent
+  private damageTimer = 0
+  private deathTimer = 0
+
+  private _health = 3
+  get health() {
+    return this._health
+  }
+
   // private idle = false
   // private timer = 0
 
@@ -73,6 +88,27 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
     })
   }
 
+  handleDamage() {
+    if (this._health <= 0) {
+      return
+    }
+
+    if (this.healthState === HealthState.DAMAGE) return
+
+    this._health -= 1
+
+    if (this._health <= 0) {
+      this.healthState = HealthState.DEAD
+      this.setVelocity(0, 0)
+      this.anims.play({ key: Lizard01AnimsKeys.DieSide })
+    } else {
+      // this.setVelocity(direction.x, direction.y)
+      this.damageTimer = 0
+      this.healthState = HealthState.DAMAGE
+      this.setTint(0xff9999)
+    }
+  }
+
   destroy(fromScene?: boolean) {
     this.moveEvent.destroy()
 
@@ -91,6 +127,28 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
   preUpdate(time: number, delta: number) {
     super.preUpdate(time, delta)
 
+    if (this.health <= 0) {
+      this.deathTimer += delta
+
+      if (this.deathTimer >= 1000) {
+        this.destroy()
+      }
+    }
+
+    switch (this.healthState) {
+      case HealthState.IDLE:
+        break
+
+      case HealthState.DAMAGE:
+        this.damageTimer += delta
+        if (this.damageTimer >= 100) {
+          this.healthState = HealthState.IDLE
+          this.damageTimer = 0
+          this.clearTint()
+        }
+        break
+    }
+
     // if (this.idle) {
     //   this.timer += delta
     //   if (this.timer >= 3000) {
@@ -98,6 +156,13 @@ export default class Lizard01 extends Phaser.Physics.Arcade.Sprite {
     //     this.timer = 0
     //   }
     // }
+
+    if (
+      this.healthState === HealthState.DAMAGE ||
+      this.healthState === HealthState.DEAD
+    ) {
+      return
+    }
 
     switch (this.direction) {
       case Direction.UP:

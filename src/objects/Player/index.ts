@@ -25,6 +25,8 @@ enum HealthState {
 export default class Player extends Phaser.Physics.Arcade.Sprite {
   private healthState = HealthState.IDLE
   private damageTimer = 0
+  private flyingKnifesTimer = 0
+  private flyingKnifesOnCooldown = false
   private speed = 100
   private flyingKnifes!: Phaser.Physics.Arcade.Group
 
@@ -135,7 +137,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     }
   }
 
-  update(cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
+  update(delta: number, cursors: Phaser.Types.Input.Keyboard.CursorKeys) {
     if (
       this.healthState === HealthState.DAMAGE ||
       this.healthState === HealthState.DEAD
@@ -143,9 +145,21 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
       return
     }
 
-    if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
-      this.throwFlyingKnife()
-      return
+    // if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
+    if (cursors.space.isDown) {
+      if (this.flyingKnifesTimer === 0) {
+        this.throwFlyingKnife()
+        this.flyingKnifesOnCooldown = true
+      }
+    }
+
+    if (this.flyingKnifesOnCooldown) {
+      this.flyingKnifesTimer += delta
+
+      if (this.flyingKnifesTimer >= 750) {
+        this.flyingKnifesTimer = 0
+        this.flyingKnifesOnCooldown = false
+      }
     }
 
     playerMovement(cursors, this, this.speed)
