@@ -1,8 +1,11 @@
 import TextureKeys from '../../consts/TextureKeys'
 import DepthKeys from '../../consts/DepthKeys'
 import { FauneAnimsKeys } from '../../consts/AnimsKeys'
-import { FlyingKnifeKeys } from '../../consts/AnimsKeys'
+import { FlyingKnifeAnimsKeys } from '../../consts/AnimsKeys'
+import EventKeys from '../../consts/EventKeys'
 import playerMovement from './playerMovement'
+import Chest from '../Chest'
+import { sceneEvents } from '../../events/EventCenter'
 
 declare global {
   namespace Phaser.GameObjects {
@@ -30,11 +33,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
   private flyingKnifesOnCooldown = false
   private speed = 100
   private flyingKnifes!: Phaser.Physics.Arcade.Group
+  private activeChest?: Chest
 
   private _health = 3
   get health() {
     return this._health
   }
+
+  private _coins = 0
 
   constructor(
     scene: Phaser.Scene,
@@ -50,6 +56,10 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
   setFlyingKnifes(flyingKnifes: Phaser.Physics.Arcade.Group) {
     this.flyingKnifes = flyingKnifes
+  }
+
+  setChest(chest: Chest) {
+    this.activeChest = chest
   }
 
   private throwFlyingKnife() {
@@ -72,7 +82,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         flyingKnife.setDepth(DepthKeys.Player - 1)
         flyingKnife.anims.play(
           {
-            key: FlyingKnifeKeys.Up,
+            key: FlyingKnifeAnimsKeys.Up,
             repeat: -1
           },
           true
@@ -89,7 +99,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         flyingKnife.setDepth(DepthKeys.PlayerWeapon)
         flyingKnife.anims.play(
           {
-            key: FlyingKnifeKeys.Down,
+            key: FlyingKnifeAnimsKeys.Down,
             repeat: -1
           },
           true
@@ -122,7 +132,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
         flyingKnife.setDepth(DepthKeys.PlayerWeapon)
         flyingKnife.anims.play(
           {
-            key: FlyingKnifeKeys.Side,
+            key: FlyingKnifeAnimsKeys.Side,
             repeat: -1
           },
           true
@@ -188,9 +198,17 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
     // if (Phaser.Input.Keyboard.JustDown(cursors.space)) {
     if (cursors.space.isDown) {
-      if (this.flyingKnifesTimer === 0) {
-        this.throwFlyingKnife()
-        this.flyingKnifesOnCooldown = true
+      if (this.activeChest) {
+        const coins = this.activeChest.open()
+        this._coins += coins
+
+        this.activeChest = undefined
+        sceneEvents.emit(EventKeys.PlayerCoinsChanged, this._coins)
+      } else {
+        if (this.flyingKnifesTimer === 0) {
+          this.throwFlyingKnife()
+          this.flyingKnifesOnCooldown = true
+        }
       }
     }
 

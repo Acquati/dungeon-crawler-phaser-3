@@ -5,6 +5,8 @@ enum DepthKeys {
   FloorDecoration,
   Walls,
   WallsDecoration,
+  Items,
+  ItemsDecoration,
   Player,
   PlayerDecoration,
   Enemy,

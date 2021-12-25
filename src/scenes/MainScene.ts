@@ -7,6 +7,7 @@ import Lizard01 from '../objects/Lizard01'
 import Player from '../objects/Player'
 import '../objects/Player'
 import { sceneEvents } from '../events/EventCenter'
+import Chest from '../objects/Chest'
 
 export default class MainScene extends Phaser.Scene {
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys
@@ -38,6 +39,14 @@ export default class MainScene extends Phaser.Scene {
     wallsLayer.setDepth(DepthKeys.Walls)
     wallsLayer.setCollisionByProperty({ collides: true })
     debugDraw(wallsLayer, this)
+
+    const chests = this.physics.add.staticGroup({
+      classType: Chest
+    })
+    const chestsLayer = map.getObjectLayer('chests')
+    chestsLayer.objects.forEach((chest) => {
+      chests.get(chest.x, chest.y, TextureKeys.Chest)
+    })
 
     this.flyingKnifes = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Sprite
@@ -77,13 +86,15 @@ export default class MainScene extends Phaser.Scene {
       undefined,
       this
     )
+
     this.physics.add.collider(
-      this.flyingKnifes,
-      this.lizards01,
-      this.handleFlyingKnifesLizards01Collision,
+      this.player,
+      chests,
+      this.handlePlayerChestCollision,
       undefined,
       this
     )
+
     this.playerLizards01Collider = this.physics.add.collider(
       this.player,
       this.lizards01,
@@ -92,7 +103,23 @@ export default class MainScene extends Phaser.Scene {
       this
     )
 
+    this.physics.add.collider(
+      this.flyingKnifes,
+      this.lizards01,
+      this.handleFlyingKnifesLizards01Collision,
+      undefined,
+      this
+    )
+
     this.cameras.main.startFollow(this.player, true)
+  }
+
+  private handlePlayerChestCollision(
+    object1: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    object2: Phaser.Types.Physics.Arcade.GameObjectWithBody
+  ) {
+    const chest = object2 as Chest
+    this.player.setChest(chest)
   }
 
   private handlePlayerLizard01Collision(

@@ -29,6 +29,8 @@ export default class Preloader extends Phaser.Scene {
       'enemies/lizard01.png',
       'enemies/lizard01.json'
     )
+    this.load.aseprite(TextureKeys.Coin, 'items/coin.png', 'items/coin.json')
+    this.load.aseprite(TextureKeys.Chest, 'items/chest.png', 'items/chest.json')
 
     this.load.image(TextureKeys.UIHeartFull, 'user-interface/ui-heart-full.png')
     this.load.image(TextureKeys.UIHeartHalf, 'user-interface/ui-heart-half.png')
@@ -42,6 +44,8 @@ export default class Preloader extends Phaser.Scene {
     this.anims.createFromAseprite(TextureKeys.Faune)
     this.anims.createFromAseprite(TextureKeys.FlyingKnife)
     createLizard01Anims(this.anims)
+    this.anims.createFromAseprite(TextureKeys.Coin)
+    this.anims.createFromAseprite(TextureKeys.Chest)
 
     this.scene.start(SceneKeys.MainScene)
   }

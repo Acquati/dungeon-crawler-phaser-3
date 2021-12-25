@@ -23,8 +23,18 @@ export enum Lizard01AnimsKeys {
   DieSide = 'lizard01-die-side'
 }
 
-export enum FlyingKnifeKeys {
+export enum FlyingKnifeAnimsKeys {
   Side = 'flying-knife-side',
   Down = 'flying-knife-down',
   Up = 'flying-knife-up'
+}
+
+export enum CoinAnimsKeys {
+  Idle = 'coin-idle',
+  Rotating = 'coin-rotating'
+}
+
+export enum ChestAnimsKeys {
+  Idle = 'chest-idle',
+  Open = 'chest-open'
 }
