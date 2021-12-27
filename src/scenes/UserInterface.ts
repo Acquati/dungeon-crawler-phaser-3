@@ -1,6 +1,5 @@
 import SceneKeys from '../consts/SceneKeys'
 import TextureKeys from '../consts/TextureKeys'
-import { CoinAnimsKeys } from '../consts/AnimsKeys'
 import EventKeys from '../consts/EventKeys'
 import DepthKeys from '../consts/DepthKeys'
 import { sceneEvents } from '../events/EventCenter'
@@ -42,13 +41,10 @@ export default class UserInterface extends Phaser.Scene {
     //   repeat: -1
     // })
 
-    const coinsLabel = this.add.text(15, 16, 'Lambada', {
-      fontSize: '13px',
-      fontFamily: 'Arial'
-    })
+    const coinsLabel = this.add.bitmapText(13, 18, 'pixel-white', '0', 8)
 
     sceneEvents.on(EventKeys.PlayerCoinsChanged, (coins: number) => {
-      coinsLabel.text = coins.toString()
+      coinsLabel.setText(coins.toString())
     })
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
