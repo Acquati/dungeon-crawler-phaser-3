@@ -6,7 +6,7 @@
 
 A dungeon crawler base game, inspired on [Ourcade Tutorial](https://www.youtube.com/playlist?list=PLumYWZ2t7CRtgjbZK0JMoXHjebeYmT85-), made on [Phaser 3 Framework](https://phaser.io/phaser3), using [Typescript](https://www.typescriptlang.org/) and compiled with [Parcel v2](https://v2.parceljs.org/).
 
-'Up', 'Down', 'Left' and 'Right' keys walk with the character, 'Space' throw knifes and open the chest.
+'Up', 'Down', 'Left' and 'Right' keys move the character, 'Space' throw knifes and open chests.
 
 ## Setup
 
