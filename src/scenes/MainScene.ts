@@ -50,6 +50,7 @@ export default class MainScene extends Phaser.Scene {
 
     this.flyingKnifes = this.physics.add.group({
       classType: Phaser.Physics.Arcade.Sprite
+      // maxSize: 3
     })
 
     this.player = this.add.player(48, 80, TextureKeys.Faune)
@@ -63,7 +64,11 @@ export default class MainScene extends Phaser.Scene {
       // }
     })
 
-    this.lizards01.get(480, 80, TextureKeys.Lizard01)
+    const lizards01Layer = map.getObjectLayer('lizards01')
+    lizards01Layer.objects.forEach((lizard01) => {
+      this.lizards01.get(lizard01.x, lizard01.y, TextureKeys.Lizard01)
+    })
+    // this.lizards01.get(480, 80, TextureKeys.Lizard01)
 
     // this.lizard01 = this.physics.add.sprite(480, 80, TextureKeys.Lizard01)
     // this.lizard01.body.setSize(16, 16)

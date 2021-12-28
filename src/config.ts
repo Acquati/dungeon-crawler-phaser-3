@@ -22,10 +22,10 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
     }
   },
   pixelArt: true,
-  scene: [Preloader, MainScene, UserInterface],
   scale: {
     zoom: 2
-  }
+  },
+  scene: [Preloader, MainScene, UserInterface]
 }
 
 export default GameConfig
