@@ -1,10 +1,10 @@
 <p align="center">
-  <img width=60% src="public/images/phaser3-logo.png">
+  <img width=60% src="public/images/dungeon-crawler.png">
 </p>
 
-# Phaser 3 Typescript Template
+# Dungeon Crawler - Phaser 3
 
-A [Phaser 3 Framework](https://phaser.io/phaser3) template for [Typescript](https://www.typescriptlang.org/) compiled with [Parcel v2](https://v2.parceljs.org/).
+A dungeon crawler base game, inspired on [Ourcade Tutorial](https://www.youtube.com/playlist?list=PLumYWZ2t7CRtgjbZK0JMoXHjebeYmT85-), made on [Phaser 3 Framework](https://phaser.io/phaser3), using [Typescript](https://www.typescriptlang.org/) and compiled with [Parcel v2](https://v2.parceljs.org/).
 
 ## Setup
 
@@ -15,8 +15,8 @@ Install [Node.js](https://nodejs.org/en) and [Yarn](https://classic.yarnpkg.com/
 ### Installing
 
 ```bash
-git clone https://github.com/acquati/phaser-3-typescript-template.git
-cd phaser-3-typescript-template
+git clone https://github.com/acquati/dungeon-crawler-phaser-3.git
+cd dungeon-crawler-phaser-3
 yarn install
 
 # Development
